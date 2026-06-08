@@ -53,7 +53,7 @@ def test_new_product():
         "name": "Наушники",
         "description": "Беспроводные",
         "price": 5000.0,
-        "quantity": 25
+        "quantity": 25,
     }
     product = Product.new_product(product_dict)
     assert product.name == "Наушники"
