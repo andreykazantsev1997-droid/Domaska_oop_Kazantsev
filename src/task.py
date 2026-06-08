@@ -1,6 +1,3 @@
-from itertools import product
-
-
 class Product:
     def __init__(self, name: str, description: str, price: float, quantity: int):
         self.name = name
@@ -14,7 +11,7 @@ class Product:
             name=product_dict["name"],
             description=product_dict["description"],
             price=product_dict["price"],
-            quantity=product_dict["quantity"]
+            quantity=product_dict["quantity"],
         )
 
     @property
@@ -48,8 +45,8 @@ class Category:
     def products(self):
         product_string = []
         for product in self.__products:
-            info = f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт."
+            info = (
+                f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт."
+            )
             product_string.append(info)
         return product_string
-
-
