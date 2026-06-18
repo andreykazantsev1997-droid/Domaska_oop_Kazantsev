@@ -21,10 +21,7 @@ def test_product_init():
 def test_category_init(products_list):
     Category.category_count = 0
     Category.product_count = 0
-    expected_products = [
-        f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт."
-        for product in products_list
-    ]
+    expected_products = "Смартфоны, количество продуктов: 6 шт."
     category_1 = Category("Смартфоны", "Описание смартфона", products_list)
     assert category_1.name == "Смартфоны"
     assert category_1.description == "Описание смартфона"
@@ -44,8 +41,8 @@ def test_category_add_product():
 def test_category_products_property():
     p1 = Product("Samsung Galaxy S23", "Флагман", 180000.0, 5)
     category = Category("Смартфоны", "Мобильные телефоны", [p1])
-    expected_info = "Samsung Galaxy S23, 180000.0 руб. Остаток: 5 шт."
-    assert category.products == [expected_info]
+    expected_info = "Смартфоны, количество продуктов: 5 шт."
+    assert category.products == expected_info
 
 
 def test_new_product():
@@ -67,3 +64,19 @@ def test_price_update():
     product.price = -100
     assert product.price == 55000.0
     assert product.price == 55000.0
+
+
+def test_product_str():
+    product = Product(
+        name="Samsung Galaxy", description="Смартфон", price=70000.0, quantity=5
+    )
+    expected_str = "Samsung Galaxy, 70000.0 руб. Остаток: 5 шт."
+    assert str(product) == expected_str
+
+
+def test_product_add_zero_quantity():
+    product1 = Product(
+        name="iPhone 15", description="Apple", price=100000.0, quantity=0
+    )
+    product2 = Product(name="Чехол", description="Аксессуар", price=1500.0, quantity=10)
+    assert product1 + product2 == 15000.0
