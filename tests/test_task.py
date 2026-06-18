@@ -1,6 +1,6 @@
 import pytest
 
-from src.task import Category, Product, Smartphone, LawnGrass
+from src.task import Category, LawnGrass, Product, Smartphone
 
 
 @pytest.fixture
@@ -81,6 +81,7 @@ def test_product_add_zero_quantity():
     product2 = Product(name="Чехол", description="Аксессуар", price=1500.0, quantity=10)
     assert product1 + product2 == 15000.0
 
+
 @pytest.fixture
 def data():
     category = Category("Тест", "Описание", [])
@@ -88,15 +89,18 @@ def data():
     grass = LawnGrass("Трава", "Описание", 100, 5, "Россия", "10 дней", "Зеленая")
     return category, phone, grass
 
+
 def test_add_correct_product(data):
     category, phone, _ = data
     category.add_product(phone)
     assert phone in category._Category__products
 
+
 def test_products_addition_type_error(data):
     _, phone, grass = data
     with pytest.raises(TypeError):
-        result = phone + grass
+        phone + grass
+
 
 def test_add_product_type_error(data):
     category, _, _ = data
