@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from pydoc import describe
 
 
 class BaseProduct(ABC):
@@ -32,12 +31,15 @@ class BaseProduct(ABC):
     def __add__(self, other):
         pass
 
+
 class Mixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         print(repr(self))
+
     def __repr__(self):
         return f"{self.__class__.__name__}('{self.name}', '{self.description}', {self.price}, {self.quantity})"
+
 
 class Product(Mixin, BaseProduct):
     def __init__(self, name: str, description: str, price: float, quantity: int):
