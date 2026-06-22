@@ -1,9 +1,47 @@
-class Product:
+from abc import ABC, abstractmethod
+from pydoc import describe
+
+
+class BaseProduct(ABC):
     def __init__(self, name: str, description: str, price: float, quantity: int):
         self.name = name
         self.description = description
-        self.__price = price
+        self._price = price
         self.quantity = quantity
+
+    @classmethod
+    @abstractmethod
+    def new_product(cls, product_dict: dict):
+        pass
+
+    @property
+    @abstractmethod
+    def price(self):
+        pass
+
+    @price.setter
+    @abstractmethod
+    def price(self, new_price):
+        pass
+
+    @abstractmethod
+    def __str__(self):
+        pass
+
+    @abstractmethod
+    def __add__(self, other):
+        pass
+
+class Mixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        print(repr(self))
+    def __repr__(self):
+        return f"{self.__class__.__name__}('{self.name}', '{self.description}', {self.price}, {self.quantity})"
+
+class Product(Mixin, BaseProduct):
+    def __init__(self, name: str, description: str, price: float, quantity: int):
+        super().__init__(name, description, price, quantity)
 
     @classmethod
     def new_product(cls, product_dict: dict):
@@ -16,17 +54,17 @@ class Product:
 
     @property
     def price(self):
-        return self.__price
+        return self._price
 
     @price.setter
     def price(self, new_price):
         if new_price <= 0:
             print("Цена не должна быть нулевая или отрицательная")
         else:
-            self.__price = new_price
+            self._price = new_price
 
     def __str__(self):
-        return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
+        return f"{self.name}, {self._price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other):
         if type(self) is not type(other):
