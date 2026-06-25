@@ -75,11 +75,11 @@ def test_product_str():
 
 
 def test_product_add_zero_quantity():
-    product1 = Product(
-        name="iPhone 15", description="Apple", price=100000.0, quantity=0
-    )
-    product2 = Product(name="Чехол", description="Аксессуар", price=1500.0, quantity=10)
-    assert product1 + product2 == 15000.0
+    with pytest.raises(ValueError) as exc_info:
+        Product(name="iPhone 15", description="Apple", price=100000.0, quantity=0)
+        assert (
+            str(exc_info.value) == "Товар с нулевым количеством не может быть добавлен"
+        )
 
 
 @pytest.fixture
@@ -117,3 +117,14 @@ def test_mixin_repr():
     p = Product("Тест Миксина", "Описание", 1000.0, 7)
     expected_repr = "Product('Тест Миксина', 'Описание', 1000.0, 7)"
     assert repr(p) == expected_repr
+
+
+def test_middle_price_empty_category():
+    category_empty = Category("Пустая категория", "Категория без продуктов", [])
+    assert category_empty.middle_price() == 0
+
+
+def test_product_init_zero_quantity():
+    with pytest.raises(ValueError) as exc_info:
+        Product("Тестовый товар", "Описание", 100.0, 0)
+    assert str(exc_info.value) == "Товар с нулевым количеством не может быть добавлен"
