@@ -43,6 +43,8 @@ class Mixin:
 
 class Product(Mixin, BaseProduct):
     def __init__(self, name: str, description: str, price: float, quantity: int):
+        if quantity == 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
         super().__init__(name, description, price, quantity)
 
     @classmethod
@@ -96,6 +98,14 @@ class Category:
     def products(self):
         total_quantity = sum(product.quantity for product in self.__products)
         return f"{self.name}, количество продуктов: {total_quantity} шт."
+
+    def middle_price(self):
+        try:
+            total_price = sum([product.price for product in self.__products])
+            avg_price = total_price / len(self.__products)
+            return avg_price
+        except ZeroDivisionError:
+            return 0
 
 
 class Smartphone(Product):
