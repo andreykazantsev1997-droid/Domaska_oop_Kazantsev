@@ -1,6 +1,6 @@
 import pytest
 
-from src.task import Category, LawnGrass, Product, Smartphone
+from src.task import BaseProduct, Category, LawnGrass, Product, Smartphone
 
 
 @pytest.fixture
@@ -106,3 +106,14 @@ def test_add_product_type_error(data):
     category, _, _ = data
     with pytest.raises(TypeError):
         category.add_product("Просто строка текста")
+
+
+def test_base_product_is_abstract():
+    with pytest.raises(TypeError):
+        BaseProduct("Тест", "Описание", 100.0, 5)
+
+
+def test_mixin_repr():
+    p = Product("Тест Миксина", "Описание", 1000.0, 7)
+    expected_repr = "Product('Тест Миксина', 'Описание', 1000.0, 7)"
+    assert repr(p) == expected_repr
